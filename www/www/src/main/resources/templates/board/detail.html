@@ -2,7 +2,8 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <th:block th:replace="~{layout :: setFragment(~{this::content})}">
     <th:block th:fragment="content">
-        <div class="container-sm">
+        <th:block th:with="bvo=${bdto.bvo}">
+            <div class="container-sm">
             <h1>Board Detail Page</h1>
             <form action="/board/modify" method="post" id="modForm">
                 <input type="hidden" name="bno" th:value="${bvo.bno}">
@@ -29,6 +30,29 @@
                     <textarea name="content" id="content" cols="50" rows="5"
                               class="form-control" readonly>[[${bvo.content}]]
                     </textarea>
+
+                    <!-- file upload 표시 라인 -->
+                    <div class="mb-3">
+                        <ul class="list-group list-group-flush">
+                            <li th:each="fvo : ${bdto.flist}" class="list-group-item">
+                                <div th:if="${fvo.fileType > 0}" class="ms-2 me-auto">
+                                    <img th:src="@{|/upload/${fvo.saveDir}/${fvo.uuid}_th_${fvo.fileName}|}">
+                                </div>
+                                <div th:unless="${fvo.fileType > 0}" class="ms-2 me-auto">
+                                    <!-- 파일모양 아이콘 -->
+                                </div>
+                                <div class="ms-2 me-auto">
+                                    <div class="fw-bold">[[${fvo.fileName}]]</div>
+                                    [[${fvo.regAt}]]
+                                </div>
+                                <span class="badge bg-dark rounded-pill">[[${fvo.fileSize}]]Bytes</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- 일반 파일 다운로드 -->
+                    <br> <hr>
+
                 </div>
                 <button type="button" id="listBtn" class="btn btn-outline-primary">List</button>
                 <!-- detail page에서 modify 상태로 변경하기 위한 버튼 -->
@@ -40,5 +64,6 @@
             </form>
         </div>
         <script th:src="@{/js/boardDetail.js}"></script>
+        </th:block>
     </th:block>
 </th:block>

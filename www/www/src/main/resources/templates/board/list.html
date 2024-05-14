@@ -1,9 +1,31 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <th:block th:replace="~{layout :: setFragment(~{this::content})}">
     <th:block th:fragment="content">
         <div class="container-sm">
             <h1>Board List Page</h1>
+            <!--검색 라인-->
+            <form action="/board/list" method="get" class="row g-3">
+                <div class="input-group mb-3" style="width: 500px;">
+                    <select class="form-select" name="type" aria-label="Default select example">
+                        <!-- == 처리해도 되고 eq 처리해도 됨 둘다 같으면 이라는 같은 의미 -->
+                        <option th:selected="${ph.pgvo.type == null? true : false}">Choose...</option>
+                        <option th:value="t" th:selected="${ph.pgvo.type == 't'? true : false}">title</option>
+                        <option th:value="w" th:selected="${ph.pgvo.type == 'w'? true : false}">writer</option>
+                        <option th:value="c" th:selected="${ph.pgvo.type == 'c'? true : false}">content</option>
+                        <option th:value="tc" th:selected="${ph.pgvo.type == 'tc'? true : false}">title&content</option>
+                        <option th:value="wc" th:selected="${ph.pgvo.type == 'wc'? true : false}">writer&content</option>
+                        <option th:value="tw" th:selected="${ph.pgvo.type == 'tw'? true : false}">title&writer</option>
+                        <option th:value="twc" th:selected="${ph.pgvo.type == 'twc'? true : false}">all</option>
+                    </select>
+                    <input type="text" class="form-control" placeholder="Search..." name="keyword" th:value="${ph.pgvo.keyword}" aria-label="Username" aria-describedby="basic-addon1">
+                    <input type="hidden" name="pageNo" th:value="1">
+                    <input type="hidden" name="qty" th:value="${ph.pgvo.qty}">
+                    <button type="submit" class="btn btn-success">검색</button>
+                </div>
+            </form>
+
             <table class="table table-striped">
                 <thead>
                 <tr>
@@ -22,6 +44,32 @@
                 </tr>
                 </tbody>
             </table>
+            <!--페이지네이션 라인-->
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center">
+                    <li th:if="${ph.prev}"  class="page-item">
+                        <a class="page-link" th:href="@{/board/list(pageNo=${ph.startPage-1},qty=${ph.pgvo.qty},type=${ph.pgvo.type},keyword=${ph.pgvo.keyword})}" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+
+                    <!--th:classappend : 동적 클래스 추가-->
+                    <!--${#numbers.sequence(from,to)}-->
+                    <!--from에서to까지정해진step만큼증가하는연속된정수를나타냄-->
+                    <th:block th:each="i:${#numbers.sequence(ph.startPage, ph.endPage)} ">
+                        <li class="page-item" th:classappend="${ph.pgvo.pageNo == i ?'active':''}" aria-current="page">
+                            <a class="page-link" th:href="@{/board/list(pageNo=${i},qty=${ph.pgvo.qty},type=${ph.pgvo.type},keyword=${ph.pgvo.keyword})}">[[${i}]]</a>
+                        </li>
+                    </th:block>
+
+                    <li th:if="${ph.next}" class="page-item">
+                        <a class="page-link" th:href="@{/board/list(pageNo=${ph.endPage+1},qty=${ph.pgvo.qty},type=${ph.pgvo.type},keyword=${ph.pgvo.keyword})}" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
         </div>
     </th:block>
 </th:block>

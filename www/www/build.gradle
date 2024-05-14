@@ -31,6 +31,15 @@ dependencies {
 	// https://mvnrepository.com/artifact/org.bgee.log4jdbc-log4j2/log4jdbc-log4j2-jdbc4.1
 	implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16'
 
+	/*tika-core tika-parsers 2.4.1 thumbnailator 0.4.17*/
+	// https://mvnrepository.com/artifact/org.apache.tika/tika-core
+	implementation 'org.apache.tika:tika-core:2.4.1'
+	// https://mvnrepository.com/artifact/org.apache.tika/tika-parsers
+	implementation 'org.apache.tika:tika-parsers:2.4.1'
+	// https://mvnrepository.com/artifact/net.coobird/thumbnailator
+	implementation 'net.coobird:thumbnailator:0.4.17'
+
+
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
