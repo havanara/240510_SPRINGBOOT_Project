@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="~{layout :: setFragment(~{this::content})}">
+    <th:block th:fragment="content">
+        <div class="mt-4 p-5 bg-primary text-white rounded">
+            <h3>Hello World</h3>
+            <p>Hello World</p>
+        </div>
+
+    </th:block>
+</th:block>
