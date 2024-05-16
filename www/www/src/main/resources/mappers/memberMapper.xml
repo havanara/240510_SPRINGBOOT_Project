@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ezen.www.repository.MemberMapper">
+
+    <insert id="insert">
+        insert into member(email, pwd, nick_name)
+        values (#{email},#{pwd},#{nickName})
+    </insert>
+
+    <insert id="insertAuth">
+        insert into auth_member
+        values (#{email}, 'ROLE_USER')
+    </insert>
+
+    <select id="selectEmail" resultType="com.ezen.www.domain.MemberVO">
+        select * from member
+        where email = #{email}
+    </select>
+
+    <select id="selectAuths" resultType="com.ezen.www.domain.AuthVO">
+        select * from auth_member
+        where email = #{email}
+    </select>
+
+    <select id="getList" resultType="com.ezen.www.domain.MemberVO">
+        select * from member
+    </select>
+
+    <select id="getPwd" resultType="String">
+        select pwd from member
+        where email = #{email}
+    </select>
+
+    <update id="updateModify">
+        update member set pwd = #{pwd}, nick_name = #{nickName}
+        where email = #{email}
+    </update>
+
+    <delete id="authRemove">
+        delete from auth_member
+        where email = #{email}
+    </delete>
+
+    <delete id="remove">
+        delete from member
+        where email = #{email}
+    </delete>
+
+</mapper>

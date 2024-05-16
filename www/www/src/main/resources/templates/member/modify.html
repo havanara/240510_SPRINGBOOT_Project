@@ -1,0 +1,45 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="~{layout :: setFragment(~{this::content})}">
+    <th:block th:fragment="content" >
+        <div class="container-md">
+        <h1>Member Modify Page</h1>
+        <th:block sec:authorize="isAuthenticated()" th:with="auth=${#authentication.getPrincipal()}">
+            <form action="/member/modify" method="post">
+
+            <div class="mb-3">
+                <label for="n" class="form-label">nickName</label>
+                <input type="text" class="form-control" name="nickName" id="n" th:value="${auth.mvo.nickName }">
+            </div>
+            <div class="mb-3">
+                <label for="e" class="form-label">E-Mail</label>
+                <input type="email" class="form-control" name="email" id="e" th:value="${auth.mvo.email}" readonly="readonly">
+            </div>
+            <div class="mb-3">
+                <label for="p" class="form-label">PassWord</label>
+                <input type="password" class="form-control" name="pwd" id="p">
+            </div>
+            <div class="mb-3">
+                <label for="r" class="form-label">RegDate</label>
+                <input type="text" class="form-control" name="regDate" id="r" th:value="${auth.mvo.regAt }" readonly="readonly">
+            </div>
+            <div class="mb-3">
+                <label for="l" class="form-label">LastLogin</label>
+                <input type="text" class="form-control" name="lastLogin" id="l" th:value="${auth.mvo.lastLogin }" readonly="readonly">
+            </div>
+
+            <button type="submit" class="btn btn-primary">수정</button>
+            <button type="button" class="btn btn-secondary" id="delBtn">회원탈퇴</button>
+        </form>
+        </th:block>
+    </div>
+    </th:block>
+</th:block>
+
+<script>
+    document.getElementById('delBtn').addEventListener('click',()=>{
+        let check = confirm("정말 탈퇴하시겠습니까?");
+        if(check){
+            location.href = "/member/remove"
+        }
+    });
+</script>
