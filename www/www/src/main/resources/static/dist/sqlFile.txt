@@ -35,3 +35,13 @@ auth varchar(100) not null,
 foreign key(email) references member(email));
 
 insert into auth_member values ('kim@gmail.com', 'ROLE_ADMIN');
+
+-- 2024-05-17
+create table comment(
+cno bigint auto_increment,
+bno bigint not null,
+writer varchar(200) not null,
+content text not null,
+reg_at datetime default now(),
+mod_at datetime default now(),
+primary key(cno));
